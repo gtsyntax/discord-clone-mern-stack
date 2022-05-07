@@ -4,6 +4,8 @@ import bodyParser from "body-parser"
 import cors from "cors"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
+import indexRouter from "./routers/index.js"
+import authRouter from "./routers/auth.js"
 
 // dotenv
 dotenv.config()
@@ -14,10 +16,9 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get("/", (req, res) => {
-    res.send("Hello World")
-})
-
+// routers
+app.use("/", indexRouter)
+app.use("/api/auth", authRouter)
 
 const PORT = process.env.PORT || process.env.API_PORT
 const server = http.createServer(app)
