@@ -1,6 +1,7 @@
 import express from "express"
 import Joi from "joi"
-import { SignIn, SignUp } from "../controllers/authController.js"
+import { SignUp } from "../controllers/signUpController.js"
+import { SignIn } from "../controllers/signInController.js"
 import validator from "express-joi-validation"
 validator.createValidator({})
 

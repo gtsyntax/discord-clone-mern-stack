@@ -3,7 +3,7 @@ import bycrypt from "bcryptjs"
 
 export const SignUp = async (req, res) => {
     try {
-        const {username, email, password} = req.body
+        const { username, email, password}  = req.body
 
         // checking for existing user
         const registeredUser = await User.exists({ email: email.toLowerCase() })
@@ -15,7 +15,7 @@ export const SignUp = async (req, res) => {
         const hashedPassword = await bycrypt.hash(password, 10)
 
         // create and save user to database
-        const user = User.create({
+        const user = await User.create({
             username,
             email: email.toLowerCase(),
             password: hashedPassword
@@ -24,15 +24,15 @@ export const SignUp = async (req, res) => {
         // JWT token to be implementated later
         const token = "jwt-token"
 
-        res.send("User created successfully!")
+        res.status(201).json({
+            userDetails: {
+                username: user.username,
+                email: user.email,
+                token
+            }
+        })
 
     } catch(err) {
         return res.status(500).send("An Error occured.")
     }
-}
-
-
-export const SignIn = async (req, res) => {
-    console.log(req.body)
-    res.send("Sign in")
 }
