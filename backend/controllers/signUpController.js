@@ -1,5 +1,6 @@
 import User from "../models/user.js"
 import bycrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 
 export const SignUp = async (req, res) => {
     try {
@@ -22,7 +23,16 @@ export const SignUp = async (req, res) => {
         })
 
         // JWT token to be implementated later
-        const token = "jwt-token"
+        const token = jwt.sign(
+            {
+                userId: user._id,
+                email
+            },
+            process.env.TOKEN_KEY,
+            {
+                expiresIn: "24h"
+            }
+        )
 
         res.status(201).json({
             userDetails: {

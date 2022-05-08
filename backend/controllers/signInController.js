@@ -11,7 +11,16 @@ export const SignIn = async (req, res) => {
 
         // checking if the provided password corresponds to the one in the database
         if (user && (await bcrypt.compare(password, user.password))) {
-            const token = "jwt-token"
+            const token = jwt.sign(
+                {
+                    userId: user._id,
+                    email
+                },
+                process.env.TOKEN_KEY,
+                {
+                    expiresIn: "24h"
+                }
+            )
 
             return res.status(200).json({
                 userDetails: {

@@ -2,6 +2,7 @@ import express from "express"
 import Joi from "joi"
 import { SignUp } from "../controllers/signUpController.js"
 import { SignIn } from "../controllers/signInController.js"
+import loginRequired  from "../middlewares/loginRequired.js"
 import validator from "express-joi-validation"
 validator.createValidator({})
 
@@ -21,5 +22,9 @@ const signInSchema = Joi.object({
 router.post("/sign-up", SignUp)
 
 router.post("/sign-in", SignIn)
+
+router.get("/test", loginRequired, (req, res) => {
+    res.send("Viewed content")
+})
 
 export default router
